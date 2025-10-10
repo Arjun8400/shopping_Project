@@ -34,6 +34,9 @@ const Navbar = () => {
                 <FaHome className='text-xl' />
               </Link>
               <Link className='text-gray-700 hover:text-purple-500'>
+                <MdAddCall className='text-xl' />
+              </Link>
+              <Link className='text-gray-700 hover:text-purple-500'>
                 <FaCartPlus className='text-xl' />
               </Link>
               <Link className='text-gray-700 hover:text-purple-500'>
