@@ -1,9 +1,9 @@
 import React from 'react'
-import diwali from "../assets/diwali.png"
+import diwali from "../assets/dewali.webp"
 
 const Hero = () => {
   return (
-    <section className='bg-gradient-to-r from-purple-100 via-white to-white px-6 py-6 md:flex justify-between items-center max-w-7xl mx-auto mt-20 rounded-xl'>
+    <section className='bg-gradient-to-r from-purple-100 via-white to-white px-6 py-6 md:flex justify-between items-center max-w-7xl mx-auto mt-20 rounded-xl shadow-lg'>
         <div className='md:w-1/2 space-y-4' >
             <h2 className='text-3xl md:text-4xl font-bold text-gray-800'>Fast Delivary...🚀</h2>
             <p className='text-gray-700'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Porro perferendis ipsa fugit optio, autem necessitatibus! Praesentium nisi est ab ad?</p>
