@@ -4,6 +4,7 @@ import HomePages from './pages/HomePage'
 import Navbar from './components/Navbar'
 import Footer from './components/Footer'
 import Quary from './pages/Quary'
+import Login from './components/Login'
 
 const App = () => {
   return (
@@ -13,6 +14,7 @@ const App = () => {
         <Routes>
           <Route path='/' element={<HomePages/>} />
           <Route path='/quary' element={<Quary/>}/>
+          <Route path='/login' element={<Login/>} />
         </Routes>
         <Footer/>
       </BrowserRouter>
