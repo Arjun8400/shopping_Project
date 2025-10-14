@@ -2,8 +2,17 @@ import React from 'react'
 
 const Quary = () => {
   return (
-    <div>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Vel quia architecto unde dignissimos. Nesciunt, libero. Dolorum, soluta officiis architecto aspernatur ipsum vitae sequi eligendi exercitationem. Suscipit beatae accusamus voluptates saepe alias repellat quaerat, iure quia neque. Nisi itaque architecto et earum dolorem, soluta nemo. Ad at quis recusandae rerum voluptate, voluptas consequuntur officia iure velit facilis neque quae autem. Nihil eos quisquam nostrum natus amet aut explicabo totam eius quaerat adipisci similique, unde quibusdam, voluptatum rerum. Sit quam non qui quas cumque! Veritatis voluptatem ut laboriosam quos voluptas provident ducimus debitis saepe rem aliquam numquam reiciendis, id reprehenderit enim adipisci.cl
+    <div className='max-w-7xl mt-20 p-6 mx-auto bg-gray-200 rounded shadow-lg'>
+        <h2 className='text-2xl font-bold mb-4 text-center text-purple-600'>Your Quary From 📃</h2>
+        <form>
+          <label className='block text-gray-700 font-medium ' htmlFor="">Your Name</label>
+          <input type="text" name='' id='' placeholder='Enter your Name ...' className='w-full px-4 py-2 border bg-white border-gray-400  focus:outline-none focus:ring-2 focus:ring-purple-500 rounded' />
+          <label className='block text-gray-700 font-medium ' htmlFor="">Your Email</label>
+          <input type="email" name="" id="" placeholder='Enter your Email ...' className='w-full px-4 py-2 bg-white border border-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 rounded' />
+          <label className='block text-gray-700 font-medium ' htmlFor="">Your Quary</label>
+          <textarea name="" id="" placeholder='Enter your Quary ...' className='w-full px-4 py-2 border bg-white border-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 rounded'></textarea>
+          <button type="submit" className='w-full bg-purple-600 hover:bg-purple-800 text-white py-1 rounded-sm mt-3 transition'>Send Quary</button>
+        </form>
     </div>
   )
 }
