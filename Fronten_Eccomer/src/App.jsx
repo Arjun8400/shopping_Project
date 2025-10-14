@@ -3,6 +3,7 @@ import {BrowserRouter, Routes, Route} from 'react-router-dom'
 import HomePages from './pages/HomePage'
 import Navbar from './components/Navbar'
 import Footer from './components/Footer'
+import Quary from './pages/Quary'
 
 const App = () => {
   return (
@@ -11,6 +12,7 @@ const App = () => {
         <Navbar/>
         <Routes>
           <Route path='/' element={<HomePages/>} />
+          <Route path='/quary' element={<Quary/>}/>
         </Routes>
         <Footer/>
       </BrowserRouter>

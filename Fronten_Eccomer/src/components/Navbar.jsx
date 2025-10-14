@@ -30,10 +30,10 @@ const Navbar = () => {
           <div >
             {/* Menu */}
             <div className='hidden md:flex items-center space-x-6'>
-              <Link className='text-gray-700 hover:text-purple-500'>
+              <Link to={"/"} className='text-gray-700 hover:text-purple-500'>
                 <FaHome className='text-xl' />
               </Link>
-              <Link className='text-gray-700 hover:text-purple-500'>
+              <Link to={"/quary"} className='text-gray-700 hover:text-purple-500'>
                 <MdAddCall className='text-xl' />
               </Link>
               <Link className='text-gray-700 hover:text-purple-500'>
@@ -53,10 +53,10 @@ const Navbar = () => {
             {/* Mobile View */}
             {
               isOpen && <div className='md:hidden px-4 bg-amber-100 pt-2 shadow-md pb-4 space-y-2 absolute right-0 top-18 w-full'>
-              <Link className='block text-gray-500 hover:text-purple-500'>
+              <Link to={"/"} className='block text-gray-500 hover:text-purple-500'>
                 <FaHome className='text-xl inline' /> Home
               </Link>
-              <Link className='block text-gray-500 hover:text-purple-500'>
+              <Link to={"/quary"} className='block text-gray-500 hover:text-purple-500'>
                 <MdAddCall className='inline text-xl' /> Contact
               </Link>
               <Link className='block text-gray-500 hover:text-purple-500'>

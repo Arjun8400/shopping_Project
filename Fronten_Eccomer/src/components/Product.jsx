@@ -1,9 +1,12 @@
 import React from 'react'
 import coffee from '../assets/coffee.jpg'
+import Category from '../pages/Category'
+
 
 const Product = () => {
   return (
     <div className='max-w-7xl mx-auto py-10 px-6'>
+      <Category/>
         <h2 className='text-2xl font-semibold text-gray-700 mb-6'>Products 🔥</h2>
         <div className='grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4'>
              {
