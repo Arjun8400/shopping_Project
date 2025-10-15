@@ -18,7 +18,7 @@ const Navbar = () => {
         <div className='flex justify-between items-center h-16 relative'>
           {/* Logo */}
           <div>
-            <img src={shoppingLogo} alt="shopping Logo" className='h-12 w-auto' />
+            <Link to={"/"}><img src={shoppingLogo} alt="shopping Logo" className='h-12 w-auto' /></Link>
           </div>
           {/* Search Bar */}
           <div className='flex-1 mx-4 '>
@@ -36,7 +36,7 @@ const Navbar = () => {
               <Link to={"/quary"} className='text-gray-700 hover:text-purple-500'>
                 <MdAddCall className='text-xl' />
               </Link>
-              <Link className='text-gray-700 hover:text-purple-500'>
+              <Link to={"/cart"} className='text-gray-700 hover:text-purple-500'>
                 <FaCartPlus className='text-xl' />
               </Link>
               <Link to={"/login"} className='text-gray-700 hover:text-purple-500'>
@@ -59,11 +59,11 @@ const Navbar = () => {
               <Link to={"/quary"} className='block text-gray-500 hover:text-purple-500'>
                 <MdAddCall className='inline text-xl' /> Contact
               </Link>
-              <Link className='block text-gray-500 hover:text-purple-500'>
+              <Link to={"/cart"} className='block text-gray-500 hover:text-purple-500'>
                 <FaCartPlus className='text-xl inline' /> Cart
               </Link>
-              <Link className='block text-gray-500 hover:text-purple-500'>
-                <FaRegUserCircle to={"/login"} className='text-xl inline' /> User
+              <Link to={"/login"} className='block text-gray-500 hover:text-purple-500'>
+                <FaRegUserCircle  className='text-xl inline' /> User
               </Link>
             </div>
             }

@@ -18,7 +18,7 @@ const Product = () => {
                 <h3 className='mt-2 font-medium text-gray-800'>Coffee</h3>
                 <p className='mt-1 font-normal text-gray-500'>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam, ab?</p>
                 <p className='text-green-700 font-bold'>$56</p>
-                <button className='w-full bg-purple-500 text-white mt-2 py-1 rounded hover:bg-purple-800'>Add To Cart</button>
+                <button className='w-full bg-purple-500 text-white mt-2 py-1 rounded hover:bg-purple-800 cursor-pointer'>Add To Cart</button>
                 
             </div>
                     ))
