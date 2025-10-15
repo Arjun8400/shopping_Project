@@ -5,6 +5,7 @@ import Navbar from './components/Navbar'
 import Footer from './components/Footer'
 import Quary from './pages/Quary'
 import Login from './components/Login'
+import Reg from './components/Reg'
 
 const App = () => {
   return (
@@ -15,6 +16,7 @@ const App = () => {
           <Route path='/' element={<HomePages/>} />
           <Route path='/quary' element={<Quary/>}/>
           <Route path='/login' element={<Login/>} />
+          <Route path='/reg' element={<Reg/>} />
         </Routes>
         <Footer/>
       </BrowserRouter>

@@ -29,7 +29,7 @@ const Login = () => {
 
             </form>
             <p className='text-sm text-center text-gray-700'>Don't have an account!
-                <Link className='text-green-600 hover:underline'> Rajester</Link>
+                <Link to={"/reg"} className='text-green-600 hover:underline'> Rajester</Link>
             </p>
         </div>
     </div>
