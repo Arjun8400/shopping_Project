@@ -7,6 +7,9 @@ import Quary from './pages/Quary'
 import Login from './components/Login'
 import Reg from './components/Reg'
 import Cart from './pages/Cart'
+import AdminDashkbord from './admin/AdminDashkbord'
+import AdminProducts from './admin/AdminProducts'
+import AddProducts from './admin/AddProducts'
 
 const App = () => {
   return (
@@ -19,6 +22,10 @@ const App = () => {
           <Route path='/login' element={<Login/>} />
           <Route path='/reg' element={<Reg/>} />
           <Route path='/cart' element={<Cart/>} />
+          {/* Admin URL */}
+          <Route path='/admin/dashboard' element={<AdminDashkbord/>}/>
+          <Route path='/admin/adminproducts' element={<AdminProducts/>}/>
+          <Route path='/admin/addproduct' element={<AddProducts/>}/>
         </Routes>
         <Footer/>
       </BrowserRouter>
