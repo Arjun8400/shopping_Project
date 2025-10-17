@@ -12,7 +12,7 @@ const Slidebar = () => {
             <Link to={'/admin/dashboard'} className='block hover:text-green-600'>Dashboard <MdDashboardCustomize className='inline text-blue-500'/></Link>
             <Link to={'/admin/adminproducts'} className='block hover:text-green-600'>Manege Products 
             <MdProductionQuantityLimits className='inline text-yellow-400 space-x-2'/></Link>
-            <Link className='block hover:text-green-600'>Manage Quary <FcContacts className='inline'/></Link>
+            <Link to={'/admin/adminquary'} className='block hover:text-green-600'>Manage Quary <FcContacts className='inline'/></Link>
             <Link className='block hover:text-green-600'>Exit The Store <GiExitDoor className='inline  text-red-600'/></Link>
         </nav>
     </div>

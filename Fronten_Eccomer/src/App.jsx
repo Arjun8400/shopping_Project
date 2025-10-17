@@ -10,6 +10,9 @@ import Cart from './pages/Cart'
 import AdminDashkbord from './admin/AdminDashkbord'
 import AdminProducts from './admin/AdminProducts'
 import AddProducts from './admin/AddProducts'
+import EditProducts from './admin/EditProducts'
+import AdminQuary from './admin/AdminQuary'
+import About from './pages/About'
 
 const App = () => {
   return (
@@ -22,10 +25,15 @@ const App = () => {
           <Route path='/login' element={<Login/>} />
           <Route path='/reg' element={<Reg/>} />
           <Route path='/cart' element={<Cart/>} />
+          <Route path='/about' element={<About/>}/>
+
           {/* Admin URL */}
           <Route path='/admin/dashboard' element={<AdminDashkbord/>}/>
           <Route path='/admin/adminproducts' element={<AdminProducts/>}/>
           <Route path='/admin/addproduct' element={<AddProducts/>}/>
+          <Route path='/admin/edit-product' element={<EditProducts/>}/>
+          <Route path='/admin/adminquary' element={<AdminQuary/>}/>
+          
         </Routes>
         <Footer/>
       </BrowserRouter>
