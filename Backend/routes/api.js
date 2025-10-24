@@ -1,7 +1,6 @@
 const apiRoutes =require("express").Router()
-const controller =require("../controller/user")
+const userController =require("../controller/user")
 
-apiRoutes.get("/", controller.homecontroller)
-apiRoutes.post("/log", controller.postController)
+apiRoutes.post("/regdata", userController.regDataController)
 
 module.exports = apiRoutes
