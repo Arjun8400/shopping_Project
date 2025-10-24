@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { IoIosCloseCircle } from "react-icons/io";
 import { useNavigate, Link } from 'react-router-dom'
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+import {toast} from 'react-hot-toast'
 
 const Reg = () => {
     const navigate = useNavigate()
@@ -17,8 +18,15 @@ const Reg = () => {
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(form)
             })
+            const result = await response.json()
+            if(response.ok){
+                toast.success(result.message)
+                navigate("/login")
+            }else{
+                toast.error(result.message)
+            }
         } catch (error) {
-
+            toast.error(error)
         }
     }
 
@@ -54,7 +62,7 @@ const Reg = () => {
                             {showPassword ? <FaEyeSlash /> : <FaEye />}
                         </button>
                     </div>
-                    <button className='w-full py-2 bg-purple-500 hover:bg-purple-800 text-white font-bold rounded-xl mb-5'>Login</button>
+                    <button className='w-full py-2 bg-purple-500 hover:bg-purple-800 text-white font-bold rounded-xl mb-5'>Ragister</button>
 
                 </form>
 
