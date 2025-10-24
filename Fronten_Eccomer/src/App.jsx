@@ -13,6 +13,7 @@ import AddProducts from './admin/AddProducts'
 import EditProducts from './admin/EditProducts'
 import AdminQuary from './admin/AdminQuary'
 import About from './pages/About'
+import QueryReply from './admin/QueryReply'
 
 const App = () => {
   return (
@@ -33,6 +34,7 @@ const App = () => {
           <Route path='/admin/addproduct' element={<AddProducts/>}/>
           <Route path='/admin/edit-product' element={<EditProducts/>}/>
           <Route path='/admin/adminquary' element={<AdminQuary/>}/>
+          <Route path='/admin/queryreply' element={<QueryReply/>}/>
           
         </Routes>
         <Footer/>

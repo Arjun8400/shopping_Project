@@ -1,5 +1,6 @@
 import React from 'react'
 import Slidebar from './Slidebar'
+import { Link } from 'react-router-dom'
 
 const AdminQuary = () => {
     return (
@@ -28,7 +29,11 @@ const AdminQuary = () => {
                                 <th className='px-6 py-3'>Youji099@gmail.com</th>
                                 <th className='px-6 py-3'>Unread</th>
                                 <th className='px-6'>
+
+                                    <Link to={'/admin/queryreply'}>
                                     <button className='text-xs bg-green-500 hover:bg-green-800 px-3 py-2 rounded text-white'>Reply</button>
+                                    
+                                    </Link>
                                 </th>
                                 <th className='px-6'>
                                     <button className='text-xs bg-red-500 hover:bg-red-800 px-3 py-2 rounded text-white'>Delete</button>
