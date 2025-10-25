@@ -36,7 +36,13 @@ const regDataController = async (req, res) => {
 }
 
 
+const loginDataController = async (req, res) =>{
+    console.log(req.body)
+}
+
+
 
 module.exports = {
-    regDataController
+    regDataController,
+    loginDataController
 }
