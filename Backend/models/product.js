@@ -14,6 +14,10 @@ const productSchema = new Schema({
     productCategory :{
         type : String,
         require : true
+    },
+    productStatus :{
+        type : String,
+        default: "Out-Of-Stock"
     }
 })
 

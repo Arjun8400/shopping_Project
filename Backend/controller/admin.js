@@ -33,7 +33,18 @@ const getAllProductController = async (req, res) => {
     }
 }
 
+const deleteProductController = async (req, res) => {
+    try {
+        const productId = req.params.abc
+        await productcallection.findOneAndDelete(productId)
+        res.status(200).json({message: "Successfully Delete Product"})
+    } catch (error) {
+        res.status(500).json({ message: "Internal server error." })
+    }
+}
+
 module.exports = {
     addAdminProductController,
-    getAllProductController
+    getAllProductController,
+    deleteProductController
 }

@@ -32,6 +32,22 @@ const AdminProducts = () => {
     getAllProduct()
   }, [])
 
+  async function handleDelete(id){
+    try {
+      const response = await fetch(`/api/productdelete/${id}`,{
+        method: "DELETE"
+      })
+      const record =await response.json()
+      if(response.ok){
+        toast.success(record.message)
+        getAllProduct()
+      }else{
+        toast.error(record.message)
+      }
+    } catch (error) {
+      toast.error(error)
+    }
+  }
 
 
   return (
@@ -53,12 +69,18 @@ const AdminProducts = () => {
                 <h3 className='text-xl font-semibold text-gray-800 mb-1'>{items.productName}</h3>
                 <p className='text-sm text-gray-600 '>Category : {items.productCategory}</p>
                 <p className='text-green-600 font-bold mt-1'>{items.productPrice}</p>
-                <p className='text-blue-700 font-semibold mt-1'>In-Stock</p>
+
+                {
+                  
+                }
+                <p className='text-blue-700 font-semibold mt-1'>{items.productStatus}</p>
 
                 <div className='flex flex-col sm:flex-row justify-between mt-4'>
                   <Link to={'/admin/edit-product'} className='flex items-center text-xl gap-3 text-blue-500 hover:text-blue-800'><FaEdit /></Link>
 
-                  <Link className='flex items-center text-2xl gap-3 text-red-500 hover:text-red-800'><MdDelete /></Link>
+                  <Link 
+                  onClick={()=>{handleDelete(items._id)}}
+                  className='flex items-center text-2xl gap-3 text-red-500 hover:text-red-800'><MdDelete /></Link>
 
                 </div>
               </div>
