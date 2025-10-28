@@ -1,11 +1,39 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Slidebar from './Slidebar'
 import { Link } from 'react-router-dom'
 import Img from '../assets/coffee.jpg'
 import { FaEdit } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
+import { toast } from 'react-hot-toast'
+import { useEffect } from 'react';
 
 const AdminProducts = () => {
+  const [product, setProduct] = useState([])
+
+  async function getAllProduct() {
+    try {
+      const response = await fetch('/api/getproduct')
+
+      const record = await response.json()
+      console.log(record)
+
+      if (response.ok) {
+        setProduct(record.data)
+      } else {
+        toast.error(record.message)
+      }
+
+    } catch (error) {
+      toast.error(error)
+    }
+  }
+
+  useEffect(()=>{
+    getAllProduct()
+  }, [])
+
+
+
   return (
     <div className='flex mt-16'>
       <Slidebar />
@@ -19,12 +47,12 @@ const AdminProducts = () => {
         <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 mt-5'>
 
           {
-            [1, 2, 3, 4, 5, 6, 7, 8].map(() => (
-              <div className='bg-white rounded-xl shadow p-4 hover:shadow-xl'>
+            product.map((items, index) => (
+              <div key={index} className='bg-white rounded-xl shadow p-4 hover:shadow-xl'>
                 <img src={Img} alt="" className='w-full h-40 object-contain rounded-md mb-4 border' />
-                <h3 className='text-xl font-semibold text-gray-800 mb-1'>Apple</h3>
-                <p className='text-sm text-gray-600 '>Category : Freash</p>
-                <p className='text-green-600 font-bold mt-1'>$54</p>
+                <h3 className='text-xl font-semibold text-gray-800 mb-1'>{items.productName}</h3>
+                <p className='text-sm text-gray-600 '>Category : {items.productCategory}</p>
+                <p className='text-green-600 font-bold mt-1'>{items.productPrice}</p>
                 <p className='text-blue-700 font-semibold mt-1'>In-Stock</p>
 
                 <div className='flex flex-col sm:flex-row justify-between mt-4'>

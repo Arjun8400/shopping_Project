@@ -1,10 +1,40 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Slidebar from './Slidebar'
 import {useNavigate, Link } from 'react-router-dom'
 import { IoMdArrowRoundBack } from "react-icons/io";
+import {toast} from 'react-hot-toast'
 
 const AddProducts = () => {
     const navigate = useNavigate()
+
+    const [product, setProduct] = useState({Pname:"", Price:"", Cat:""})
+
+   async function handleForm (e){
+        e.preventDefault()
+        try {
+         const response =  await fetch('/api/addadminproduct', {
+            method : "POST",
+            headers: {"Content-Type":"application/json"},
+            body: JSON.stringify(product)
+         })
+
+         const record = await response.json()
+        
+         if(response.ok){
+            toast.success(record.message);
+            navigate("/admin/adminproducts")
+         }else{
+            toast.error(record.message)
+         }
+        } catch (error) {
+            toast.error(error)
+        }
+    }
+
+
+    function handleChange(e){
+        setProduct({...product, [e.target.name]:e.target.value})
+    }
 
   return (
      <div className='flex mt-16'>
@@ -12,21 +42,33 @@ const AddProducts = () => {
         <div className='flex-1 p-10 min-h-screen'>
             <h1 className='text-3xl font-bold mb-6 text-gray-700'>Add Products 🛒</h1>
             <button onClick={()=>{navigate('/admin/adminproducts')}} className='text-xl hover:text-green-600 cursor-pointer'><IoMdArrowRoundBack/></button>
-            <form action="" className='bg-white shadow-md rounded-xl p-6 max-w-3xl mx-auto'>
+            <form action="" onSubmit={handleForm} className='bg-white shadow-md rounded-xl p-6 max-w-3xl mx-auto'>
                 <label htmlFor=" " className='block text-gray-700 font-medium mb-1'>Product Name</label>
-                <input type="text" placeholder='Enter Product Name...' name="" id="" className='w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-green-500 mb-2' />
+                <input type="text" placeholder='Enter Product Name...' 
+                name="Pname" 
+                value={product.Pname}
+                onChange={handleChange}
+                id="" 
+                className='w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-green-500 mb-2' />
                 <label htmlFor=" " className='block text-gray-700 font-medium mb-1'>Price</label>
-                <input type="Number" placeholder='Enter Product Price...' name="" id="" className='w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-green-500 mb-2' />
+                <input type="Number" placeholder='Enter Product Price...' 
+                name="Price" 
+                value={product.Price}
+                onChange={handleChange}
+                id="" className='w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-green-500 mb-2' />
                 <label htmlFor=" " className='block text-gray-700 font-medium mb-1'>Categorys</label>
-                <select name="" id=""  className='w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-green-500 mb-2'>
+                <select name="Cat"
+                value={product.Cat} 
+                onChange={handleChange}
+                id=""  className='w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-green-500 mb-2'>
                     <option value="">---Select---</option>
-                    <option value="">Cafe</option>
-                    <option value="">Home </option>
-                    <option value="">Toys</option>
-                    <option value="">Freash</option>
-                    <option value="">Electronics</option>
-                    <option value="">Mobile</option>
-                    <option value="">Beauty</option>
+                    <option value="cafe">Cafe</option>
+                    <option value="home">Home </option>
+                    <option value="toys">Toys</option>
+                    <option value="freash">Freash</option>
+                    <option value="electonics">Electronics</option>
+                    <option value="mobile">Mobile</option>
+                    <option value="beauty">Beauty</option>
                 </select>
                 <label htmlFor=" " className='block text-gray-700 font-medium mb-1'>Image Upload</label>
                 <input type="File" name="" id="" className='w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-green-500 mb-2' />
