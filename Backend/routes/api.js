@@ -8,5 +8,7 @@ apiRoutes.post('/addadminproduct', adminController.addAdminProductController)
 
 apiRoutes.get('/getproduct', adminController.getAllProductController)
 apiRoutes.delete("/productdelete/:abc", adminController.deleteProductController)
+apiRoutes.get('/editproductdata/:abc', adminController.editProductDataController)
+apiRoutes.post('/productupdate/:abc', adminController.productUpdateController)
 
 module.exports = apiRoutes

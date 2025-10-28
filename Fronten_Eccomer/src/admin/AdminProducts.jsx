@@ -15,7 +15,6 @@ const AdminProducts = () => {
       const response = await fetch('/api/getproduct')
 
       const record = await response.json()
-      console.log(record)
 
       if (response.ok) {
         setProduct(record.data)
@@ -71,12 +70,12 @@ const AdminProducts = () => {
                 <p className='text-green-600 font-bold mt-1'>{items.productPrice}</p>
 
                 {
-                  
+                  items.productStatus === "In-Stock" ? <p className='text-blue-700 font-semibold mt-1'>{items.productStatus}</p>:<p className='text-red-700 font-semibold mt-1'>{items.productStatus}</p>
                 }
-                <p className='text-blue-700 font-semibold mt-1'>{items.productStatus}</p>
+                
 
                 <div className='flex flex-col sm:flex-row justify-between mt-4'>
-                  <Link to={'/admin/edit-product'} className='flex items-center text-xl gap-3 text-blue-500 hover:text-blue-800'><FaEdit /></Link>
+                  <Link to={`/admin/edit-product/${items._id}`} className='flex items-center text-xl gap-3 text-blue-500 hover:text-blue-800'><FaEdit /></Link>
 
                   <Link 
                   onClick={()=>{handleDelete(items._id)}}

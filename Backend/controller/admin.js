@@ -37,14 +37,45 @@ const deleteProductController = async (req, res) => {
     try {
         const productId = req.params.abc
         await productcallection.findOneAndDelete(productId)
-        res.status(200).json({message: "Successfully Delete Product"})
+        res.status(200).json({ message: "Successfully Delete Product" })
     } catch (error) {
         res.status(500).json({ message: "Internal server error." })
     }
 }
 
+const editProductDataController = async (req, res) => {
+    try {
+        const productId = req.params.abc
+        const record = await productcallection.findById(productId)
+        res.status(200).json({ data: record })
+    } catch (error) {
+        res.status(500).json({ message: "Internal server error." })
+    }
+}
+
+const productUpdateController = async (req, res) => {
+    try {
+        const { Pname, Pprice, Cat, Pstatus } = req.body
+        const productId = req.params.abc
+        await productcallection.findByIdAndUpdate(productId, {
+            productName: Pname,
+            productPrice: Pprice,
+            productCategory: Cat,
+            productStatus: Pstatus
+        })
+        
+        res.status(200).json({message:"SuccessFully Update."})
+
+    } catch (error) {
+        res.status(500).json({ message: "Internal server error." })
+    }
+
+}
+
 module.exports = {
     addAdminProductController,
     getAllProductController,
-    deleteProductController
+    deleteProductController,
+    editProductDataController,
+    productUpdateController
 }
