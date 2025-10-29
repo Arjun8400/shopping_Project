@@ -9,6 +9,7 @@ connectDB()     //! database ko run kiye
 
 
 app.use(cors())
+app.use(express.static('public'))
 app.use(express.json()) //! JSON data ko allow kiye
 app.use("/api", apiRouter)
 let port = process.env.port || 5000

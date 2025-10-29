@@ -67,7 +67,7 @@ const AdminProducts = () => {
                 <img src={Img} alt="" className='w-full h-40 object-contain rounded-md mb-4 border' />
                 <h3 className='text-xl font-semibold text-gray-800 mb-1'>{items.productName}</h3>
                 <p className='text-sm text-gray-600 '>Category : {items.productCategory}</p>
-                <p className='text-green-600 font-bold mt-1'>{items.productPrice}</p>
+                <p className='text-green-600 font-bold mt-1'>{items.productPrice} ₹</p>
 
                 {
                   items.productStatus === "In-Stock" ? <p className='text-blue-700 font-semibold mt-1'>{items.productStatus}</p>:<p className='text-red-700 font-semibold mt-1'>{items.productStatus}</p>
