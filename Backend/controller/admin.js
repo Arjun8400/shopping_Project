@@ -2,6 +2,7 @@ const productcallection = require('../models/product')
 
 const addAdminProductController = async (req, res) => {
     try {
+        const imageName = req.file.filename
         const { Pname, Price, Cat } = req.body
 
         if (!Pname || !Price || !Cat) {
@@ -12,6 +13,7 @@ const addAdminProductController = async (req, res) => {
             productName: Pname,
             productPrice: Price,
             productCategory: Cat,
+            productImage : imageName
         })
 
         await record.save();

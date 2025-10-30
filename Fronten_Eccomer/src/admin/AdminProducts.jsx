@@ -8,14 +8,14 @@ import { toast } from 'react-hot-toast'
 import { useEffect } from 'react';
 
 const AdminProducts = () => {
-  const [product, setProduct] = useState([])
+  const [product, setProduct] = useState([]) 
 
   async function getAllProduct() {
     try {
       const response = await fetch('/api/getproduct')
 
       const record = await response.json()
-
+    
       if (response.ok) {
         setProduct(record.data)
       } else {
@@ -64,7 +64,7 @@ const AdminProducts = () => {
           {
             product.map((items, index) => (
               <div key={index} className='bg-white rounded-xl shadow p-4 hover:shadow-xl'>
-                <img src={Img} alt="" className='w-full h-40 object-contain rounded-md mb-4 border' />
+                <img src={`/uploads/${items.productImage}`} alt="" className='w-full h-40 object-contain rounded-md mb-4 border' />
                 <h3 className='text-xl font-semibold text-gray-800 mb-1'>{items.productName}</h3>
                 <p className='text-sm text-gray-600 '>Category : {items.productCategory}</p>
                 <p className='text-green-600 font-bold mt-1'>{items.productPrice} ₹</p>

@@ -9,13 +9,19 @@ const AddProducts = () => {
 
     const [product, setProduct] = useState({Pname:"", Price:"", Cat:""})
 
+    const [Pimage, setPimage] = useState("")
+
    async function handleForm (e){
         e.preventDefault()
+        const formData = new FormData()
+        formData.append("Pname", product.Pname)
+        formData.append("Price", product.Price)
+        formData.append("Cat", product.Cat)
+        formData.append("image", Pimage)
         try {
          const response =  await fetch('/api/addadminproduct', {
             method : "POST",
-            headers: {"Content-Type":"application/json"},
-            body: JSON.stringify(product)
+            body:formData
          })
 
          const record = await response.json()
@@ -71,7 +77,10 @@ const AddProducts = () => {
                     <option value="beauty">Beauty</option>
                 </select>
                 <label htmlFor=" " className='block text-gray-700 font-medium mb-1'>Image Upload</label>
-                <input type="File" name="" id="" className='w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-green-500 mb-2' />
+                <input type="File" 
+                name="image"
+                onChange={(e)=>(setPimage(e.target.files[0]))} 
+                id="" className='w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-green-500 mb-2' />
                 <div className='text-right'>
                     <button className='bg-red-600 text-white hover:bg-red-800 cursor-pointer px-4 py-2 my-4 rounded'>Add Products</button>
                 </div>

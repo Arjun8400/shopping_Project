@@ -18,6 +18,10 @@ const productSchema = new Schema({
     productStatus :{
         type : String,
         default: "Out-Of-Stock"
+    },
+    productImage :{
+        type : String,
+        require: true
     }
 })
 
