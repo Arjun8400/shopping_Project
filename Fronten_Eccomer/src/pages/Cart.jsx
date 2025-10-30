@@ -21,7 +21,7 @@ const Cart = () => {
                     {
                         [1, 2, 3, 4, 5, 6, 7].map((itam,index) => (
                             <li key={index} className='flex items-center gap-5 py-4'>
-                                <img src={cartImage} alt="" className='w-14 rounded-2xl object-cover border' />
+                                <img src={"hell"} alt="" className='w-14 rounded-2xl object-cover border' />
                                 <div className='flex-1'>
                                     <h3 className='font-semibold text-gray-700'>Coffee</h3>
                                 </div>
