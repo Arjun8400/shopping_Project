@@ -6,6 +6,7 @@ const uploads = require('../middleware/multer')
 apiRoutes.post("/regdata", userController.regDataController)
 apiRoutes.post('/loginuser', userController.loginDataController)
 apiRoutes.post('/addadminproduct', uploads.single("image"), adminController.addAdminProductController)
+apiRoutes.get("/userproduct", userController.userProductController)
 
 apiRoutes.get('/getproduct', adminController.getAllProductController)
 apiRoutes.delete("/productdelete/:abc", adminController.deleteProductController)
