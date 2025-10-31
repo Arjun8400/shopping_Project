@@ -1,4 +1,5 @@
 const productcallection = require('../models/product')
+const queryCollection = require('../models/quary')
 
 const addAdminProductController = async (req, res) => {
     try {
@@ -74,10 +75,34 @@ const productUpdateController = async (req, res) => {
 
 }
 
+const queryAllDataController = async (req, res) =>{
+    try {
+        const record = await queryCollection.find()
+        res.status(200).json({data: record})
+    } catch (error) {
+        res.status(500).json({ message: "Internal server error." })
+    }
+    
+}
+
+const querySingleDeleteContoller = async (req, res)=>{
+
+    try {
+        const quaryId = req.params.abc
+        const record = await queryCollection.findByIdAndDelete(quaryId)
+        res.status(200).json({message:"Successfully Delete Query."})
+    } catch (error) {
+        res.status(500).json({ message: "Internal server error." })
+    }
+}
+
+
 module.exports = {
     addAdminProductController,
     getAllProductController,
     deleteProductController,
     editProductDataController,
-    productUpdateController
+    productUpdateController,
+    queryAllDataController,
+    querySingleDeleteContoller
 }

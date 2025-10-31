@@ -1,8 +1,51 @@
 import React from 'react'
 import Slidebar from './Slidebar'
 import { Link } from 'react-router-dom'
+import { useEffect } from 'react'
+import { useState } from 'react'
+import {toast} from 'react-hot-toast'
 
 const AdminQuary = () => {
+
+    const [query, setQuery] = useState([])
+    
+    async function queryAll() {
+        try {
+            const response = await fetch('/api/queryalldata')
+            const record = await response.json()
+            if(response.ok){
+                setQuery(record.data)
+            }else{
+                toast.error(record.message)
+            }            
+        } catch (error) {
+            toast.error(error)
+        }
+    }
+
+    async function handleDelete(id){
+        try {
+            const response =await fetch(`/api/querydelete/${id}`,{
+                method:"DELETE"
+            })
+            const record = await response.json()
+            if(response.ok){
+                toast.success(record.message)
+                queryAll()
+            }else{
+                toast.error(record.message)
+            }
+        } catch (error) {
+            toast.error(error)
+        }
+    }
+
+
+    useEffect(() => {
+        queryAll()
+    }, [])
+
+
     return (
         <div className='flex mt-16'>
             <Slidebar />
@@ -22,23 +65,30 @@ const AdminQuary = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            <tr className='bg-white border-b border-gray-300 ' >
-                                <th className='px-6 py-3'>1</th>
-                                <th className='px-6 py-3'>Arjun</th>
-                                <th className='px-6 py-3'>Mern</th>
-                                <th className='px-6 py-3'>Youji099@gmail.com</th>
-                                <th className='px-6 py-3'>Unread</th>
-                                <th className='px-6'>
 
-                                    <Link to={'/admin/queryreply'}>
-                                    <button className='text-xs bg-green-500 hover:bg-green-800 px-3 py-2 rounded text-white'>Reply</button>
-                                    
-                                    </Link>
-                                </th>
-                                <th className='px-6'>
-                                    <button className='text-xs bg-red-500 hover:bg-red-800 px-3 py-2 rounded text-white'>Delete</button>
-                                </th>
-                            </tr>
+                           {
+                            query.map((item, index)=>(
+                                <tr key={index} className='bg-white border-b border-gray-300 ' >
+                                        <th className='px-6 py-3'>{index+1}</th>
+                                        <th className='px-6 py-3'>{item.Name}</th>
+                                        <th className='px-6 py-3'>{item.Quary}</th>
+                                        <th className='px-6 py-3'>{item.Email}</th>
+                                        <th className='px-6 py-3'>{item.quarystatus}</th>
+                                        <th className='px-6'>
+
+                                            <Link to={'/admin/queryreply'}>
+                                                <button className='text-xs bg-green-500 hover:bg-green-800 px-3 py-2 rounded text-white'>Reply</button>
+
+                                            </Link>
+                                        </th>
+                                        <th className='px-6'>
+                                            <button onClick={()=>{handleDelete(item._id)}} className='text-xs bg-red-500 hover:bg-red-800 px-3 py-2 rounded text-white'>Delete</button>
+                                        </th>
+                                    </tr>
+                            ))
+                           }
+                            
+
                         </tbody>
                     </table>
                 </div>
