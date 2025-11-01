@@ -64,6 +64,7 @@ const AdminQuary = () => {
                                 <th className='px-6 py-3'>Action 2</th>
                             </tr>
                         </thead>
+
                         <tbody>
 
                            {
@@ -76,7 +77,7 @@ const AdminQuary = () => {
                                         <th className='px-6 py-3'>{item.quarystatus}</th>
                                         <th className='px-6'>
 
-                                            <Link to={'/admin/queryreply'}>
+                                            <Link to={`/admin/queryreply/${item._id}`}>
                                                 <button className='text-xs bg-green-500 hover:bg-green-800 px-3 py-2 rounded text-white'>Reply</button>
 
                                             </Link>

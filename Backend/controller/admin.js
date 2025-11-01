@@ -14,7 +14,7 @@ const addAdminProductController = async (req, res) => {
             productName: Pname,
             productPrice: Price,
             productCategory: Cat,
-            productImage : imageName
+            productImage: imageName
         })
 
         await record.save();
@@ -66,8 +66,8 @@ const productUpdateController = async (req, res) => {
             productCategory: Cat,
             productStatus: Pstatus
         })
-        
-        res.status(200).json({message:"SuccessFully Update."})
+
+        res.status(200).json({ message: "SuccessFully Update." })
 
     } catch (error) {
         res.status(500).json({ message: "Internal server error." })
@@ -75,22 +75,41 @@ const productUpdateController = async (req, res) => {
 
 }
 
-const queryAllDataController = async (req, res) =>{
+const queryAllDataController = async (req, res) => {
     try {
         const record = await queryCollection.find()
-        res.status(200).json({data: record})
+        res.status(200).json({ data: record })
     } catch (error) {
         res.status(500).json({ message: "Internal server error." })
     }
-    
+
 }
 
-const querySingleDeleteContoller = async (req, res)=>{
+const queryDeleteContoller = async (req, res) => {
 
     try {
         const quaryId = req.params.abc
         const record = await queryCollection.findByIdAndDelete(quaryId)
-        res.status(200).json({message:"Successfully Delete Query."})
+        res.status(200).json({ message: "Successfully Delete Query." })
+    } catch (error) {
+        res.status(500).json({ message: "Internal server error." })
+    }
+}
+
+const querySingleDataContoller = async (req, res) => {
+    try {
+        const queryId = req.params.id
+        const record = await queryCollection.findById(queryId)
+        res.status(200).json({ data: record })
+    } catch (error) {
+        res.status(500).json({ message: "Internal server error." })
+    }
+}
+
+const mailReplyController = async (req, res) => {
+    try {
+        console.log(req.body)
+        console.log(res.params.abc)
     } catch (error) {
         res.status(500).json({ message: "Internal server error." })
     }
@@ -104,5 +123,7 @@ module.exports = {
     editProductDataController,
     productUpdateController,
     queryAllDataController,
-    querySingleDeleteContoller
+    queryDeleteContoller,
+    querySingleDataContoller,
+    mailReplyController
 }

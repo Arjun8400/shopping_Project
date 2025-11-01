@@ -14,6 +14,8 @@ apiRoutes.delete("/productdelete/:abc", adminController.deleteProductController)
 apiRoutes.get('/editproductdata/:abc', adminController.editProductDataController)
 apiRoutes.post('/productupdate/:abc', adminController.productUpdateController)
 apiRoutes.get('/queryalldata', adminController.queryAllDataController)
-apiRoutes.delete('/querydelete/:abc', adminController.querySingleDeleteContoller)
+apiRoutes.delete('/querydelete/:abc', adminController.queryDeleteContoller)
+apiRoutes.get('/querysingledata/:id', adminController.querySingleDataContoller)
+apiRoutes.post('/mailreply/:abc',adminController.mailReplyController)
 
 module.exports = apiRoutes

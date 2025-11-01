@@ -34,7 +34,7 @@ const App = () => {
           <Route path='/admin/addproduct' element={<AddProducts/>}/>
           <Route path='/admin/edit-product/:id' element={<EditProducts/>}/>
           <Route path='/admin/adminquary' element={<AdminQuary/>}/>
-          <Route path='/admin/queryreply' element={<QueryReply/>}/>
+          <Route path='/admin/queryreply/:id' element={<QueryReply/>}/>
           
         </Routes>
         <Footer/>
