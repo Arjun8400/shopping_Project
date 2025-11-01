@@ -116,6 +116,17 @@ const mailReplyController = async (req, res) => {
 }
 
 
+const allProductController = async (req, res) => {
+    try {
+        const record = await productcallection.find({ productStatus: "In-Stock" })
+        res.status(200).json({ data: record })
+    } catch (error) {
+        res.status(500).json({ message: "Internal server error." })
+    }
+
+}
+
+
 module.exports = {
     addAdminProductController,
     getAllProductController,
@@ -125,5 +136,6 @@ module.exports = {
     queryAllDataController,
     queryDeleteContoller,
     querySingleDataContoller,
-    mailReplyController
+    mailReplyController,
+    allProductController
 }
