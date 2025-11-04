@@ -164,7 +164,3 @@ module.exports = {
     mailReplyController,
     allProductController
 }
-
-
-// user: "youji099@gmail.com",
-// pass: "hpvcsghtsuazkith",

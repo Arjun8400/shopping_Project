@@ -67,7 +67,15 @@ const loginDataController = async (req, res) => {
 
 const userProductController = async (req, res) => {
     try {
-        const record = await productCollection.find({ productStatus: "In-Stock" })
+        const category = req.query.category
+
+        let filter = {productStatus: "In-Stock"}
+
+        if(category && category.toLowerCase() !== "all"){
+            filter.productCategory = category.toLowerCase()
+        }
+        const record = await productCollection.find(filter)
+        
         res.status(200).json({ data: record })
     } catch (error) {
         res.status(500).json({ message: 'Internal server error' })

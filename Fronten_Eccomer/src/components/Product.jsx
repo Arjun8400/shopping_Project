@@ -9,9 +9,9 @@ const Product = () => {
 
   const [category, setCatagoty] = useState("All")
 
-  async function productData(){
+  async function productData(selectCategory="All"){
     try {
-      const response = await fetch('api/userproduct')
+      const response = await fetch(`api/userproduct?category=${selectCategory}`)
       const record =await response.json()
       setProductAll(record.data)
     } catch (error) {
@@ -21,10 +21,10 @@ const Product = () => {
   }
 
   useEffect(()=>{
-    productData()
-  }, [])
+    productData(category)
+  }, [category])
 
-  console.log(category)
+ 
 
   return (
     <div className='max-w-7xl mx-auto py-10 px-6'>
