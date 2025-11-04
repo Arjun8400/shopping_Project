@@ -1,5 +1,6 @@
 const productcallection = require('../models/product')
 const queryCollection = require('../models/quary')
+const nodemailer = require("nodemailer")
 
 const addAdminProductController = async (req, res) => {
     try {
@@ -108,17 +109,41 @@ const querySingleDataContoller = async (req, res) => {
 
 const mailReplyController = async (req, res) => {
     try {
-        console.log(req.body)
-        console.log(res.params.abc)
+        const { to, sub, body } = req.body;
+        const queryId = req.params.abc; 
+
+        const transporter = nodemailer.createTransport({
+            host: "smtp.gmail.com",
+            port: 465,
+            secure: true, // Gmail ke liye secure true hona chahiye
+            auth: {
+                user: process.env.GMAIL,
+                pass: process.env.PASS, // app password (not Gmail password)
+            },
+        });
+
+        await transporter.sendMail({
+            from: '"Gift_Shop" <youji099@gmail.com>',
+            to: to,
+            subject: sub,
+            text: body, 
+            html: `<p>${body}</p>`, 
+        });
+
+        await queryCollection.findByIdAndUpdate(queryId, {
+            quarystatus: "Read",
+        });
+
+        res.status(200).json({ message: "Mail successfully sent." });
     } catch (error) {
-        res.status(500).json({ message: "Internal server error." })
+        res.status(500).json({ message: "Internal server error." });
     }
-}
+};
 
 
 const allProductController = async (req, res) => {
     try {
-        const record = await productcallection.find({ productStatus: "In-Stock" })
+        const record = await productcallection.find()
         res.status(200).json({ data: record })
     } catch (error) {
         res.status(500).json({ message: "Internal server error." })
@@ -139,3 +164,7 @@ module.exports = {
     mailReplyController,
     allProductController
 }
+
+
+// user: "youji099@gmail.com",
+// pass: "hpvcsghtsuazkith",

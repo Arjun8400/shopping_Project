@@ -3,12 +3,12 @@ import Slidebar from './Slidebar'
 import { useNavigate, useParams } from 'react-router-dom'
 import { IoMdArrowRoundBack } from "react-icons/io";
 import { useEffect, useState } from 'react';
-import {toast} from 'react-hot-toast'
+import { toast } from 'react-hot-toast'
 
 
 const QueryReply = () => {
 
-    const [query, setQuery] = useState({to:"", sub:"", body:""})
+    const [query, setQuery] = useState({ to: "", sub: "", body: "" })
 
     const { id } = useParams()
     const navigate = useNavigate()
@@ -17,9 +17,9 @@ const QueryReply = () => {
         try {
             const response = await fetch(`/api/querysingledata/${id}`)
             const record = await response.json()
-            if(response.ok){
-                setQuery({to: record.data.Email})
-            }else{
+            if (response.ok) {
+                setQuery({ to: record.data.Email })
+            } else {
                 toast.error(record.message)
             }
         } catch (error) {
@@ -32,17 +32,29 @@ const QueryReply = () => {
     }, [])
 
 
-    async function handleForm(e){
-        e.preventDefault()
-        await fetch(`/api/mailreply/${id}`,{
-            method: 'POST',
-            headers:{"Content-Type":"application/json"},
-            body:JSON.stringify(query)
-        })
+    async function handleForm(e) {
+        try {
+            e.preventDefault()
+            const response = await fetch(`/api/mailreply/${id}`, {
+                method: 'POST',
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(query)
+            })
+
+            const record = await response.json()
+            if(response.ok){
+                toast.success(record.message)
+                navigate("/admin/adminquary")
+            }else{
+                toast.error(record.message)
+            }
+        } catch (error) {
+            toast.error(error)
+        }
     }
 
-    function handleChange(e){
-        setQuery({...query, [e.target.name]: e.target.value})
+    function handleChange(e) {
+        setQuery({ ...query, [e.target.name]: e.target.value })
     }
 
 
@@ -58,30 +70,30 @@ const QueryReply = () => {
                     <form action="" onSubmit={handleForm}>
                         <label className='block text-gray-700 font-medium mb-1' htmlFor="">To</label>
                         <input type="text" name="to"
-                        defaultValue={query.to}                        
-                        id=""
+                            defaultValue={query.to}
+                            id=""
                             className='w-full px-4 py-2 border border-gray-400 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-600'
                         />
                         <label className='block text-gray-700 font-medium mb-1' htmlFor="">From</label>
                         <input type="text" name=""
-                        defaultValue={"youji099@gmail.com"}
-                        id=""
+                            defaultValue={"youji099@gmail.com"}
+                            id=""
                             className='w-full px-4 py-2 border border-gray-400 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-600'
                         />
                         <label className='block text-gray-700 font-medium mb-1' htmlFor="">Sub</label>
-                        <input type="text" 
-                        name="sub" 
-                        value={query.sub}
-                        onChange={handleChange}
-                        id=""
-                        className='w-full px-4 py-2 border border-gray-400 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-600'
+                        <input type="text"
+                            name="sub"
+                            value={query.sub}
+                            onChange={handleChange}
+                            id=""
+                            className='w-full px-4 py-2 border border-gray-400 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-600'
                         />
                         <label className='block text-gray-700 font-medium mb-1' htmlFor="">Body</label>
-                        <textarea 
-                        name="body" 
-                        onChange={handleChange}
-                        value={query.body}
-                        id=""
+                        <textarea
+                            name="body"
+                            onChange={handleChange}
+                            value={query.body}
+                            id=""
                             className='w-full px-4 py-2 border border-gray-400 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-600'
                         ></textarea>
 

@@ -68,7 +68,7 @@ const AdminQuary = () => {
                         <tbody>
 
                            {
-                            query.map((item, index)=>(
+                            query.length == 0 ? <p className='text-sm font-bold text-red-600 text-center'>No Any Query..</p> : query.map((item, index)=>(
                                 <tr key={index} className='bg-white border-b border-gray-300 ' >
                                         <th className='px-6 py-3'>{index+1}</th>
                                         <th className='px-6 py-3'>{item.Name}</th>

@@ -7,6 +7,8 @@ const Product = () => {
 
   const [productAll, setProductAll] = useState([])
 
+  const [category, setCatagoty] = useState("All")
+
   async function productData(){
     try {
       const response = await fetch('api/userproduct')
@@ -22,10 +24,11 @@ const Product = () => {
     productData()
   }, [])
 
+  console.log(category)
 
   return (
     <div className='max-w-7xl mx-auto py-10 px-6'>
-      <Category/>
+      <Category onselectCat={setCatagoty}/>
         <h2 className='text-2xl font-semibold text-gray-700 mb-6'>Products 🔥</h2>
         <div className='grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4'>
              {

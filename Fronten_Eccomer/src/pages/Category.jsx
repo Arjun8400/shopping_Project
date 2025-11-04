@@ -4,7 +4,7 @@ import { CiCoffeeCup} from "react-icons/ci"
 import { IoHome} from "react-icons/io5"
 import { GiNailedHead } from "react-icons/gi"
 
-const Category = () => {
+const Category = ({onselectCat}) => {
     const category = [
         { name: "all", icon: <FaBagShopping /> },
         { name: "Cafe", icon: <CiCoffeeCup /> },
@@ -20,7 +20,7 @@ const Category = () => {
             <div className='flex sm:justify-center overflow-x-auto'>
                 {
                     category.map((cat, index) => (
-                        <div key={index} className='flex flex-col items-center min-w-[80px] text-sm text-gray-800 hover:text-purple-700 hover:cursor-pointer'>
+                        <div onClick={()=>{onselectCat(cat.name)}} key={index} className='flex flex-col items-center min-w-[80px] text-sm text-gray-800 hover:text-purple-700 hover:cursor-pointer'>
                             <div className='text-2xl mb-1'>{cat.icon}</div>
                             <div className='text-center'>{cat.name}</div>
 
