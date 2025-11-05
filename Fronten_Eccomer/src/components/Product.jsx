@@ -1,13 +1,17 @@
 import React, { useEffect, useState } from 'react'
 import Category from '../pages/Category'
 import toast from 'react-hot-toast'
-
+import {useDispatch} from 'react-redux'
+import {addToCart} from '../features/Cart/cartSlice'
 
 const Product = () => {
 
   const [productAll, setProductAll] = useState([])
 
   const [category, setCatagoty] = useState("All")
+
+  // ! redux toolkit se
+  const dispatch = useDispatch()
 
   async function productData(selectCategory="All"){
     try {
@@ -40,7 +44,7 @@ const Product = () => {
                 <h3 className='mt-2 font-medium text-gray-800'>{items.productName}</h3>
                 <p className='mt-1 font-normal text-gray-500'>{items.productCategory}</p>
                 <p className='text-green-700 font-bold'>{items.productPrice} ₹</p>
-                <button className='w-full bg-purple-500 text-white mt-2 py-1 rounded hover:bg-purple-800 cursor-pointer'>Add To Cart</button>
+                <button onClick={()=>{dispatch(addToCart(items))}} className='w-full bg-purple-500 text-white mt-2 py-1 rounded hover:bg-purple-800 cursor-pointer'>Add To Cart</button>
                 
             </div>
                     ))
