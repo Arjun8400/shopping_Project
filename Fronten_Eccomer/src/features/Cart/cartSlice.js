@@ -1,5 +1,17 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 
+export const saveCart = createAsyncThunk("cart/save", async (cartData)=>{
+
+  const respose = await fetch('/api/catr/save', {
+    method:"POST",
+    headers:{"Content-Type":"application/json"},
+    body:JSON.stringify(cartData)
+  })
+  const data = await respose.json()
+  console.log(respose)
+  console.log(data.message)
+})
+ss
 const initialState = {
   cart: [],
   TotalPrice:0,

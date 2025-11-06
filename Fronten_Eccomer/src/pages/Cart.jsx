@@ -4,8 +4,12 @@ import { IoClose } from "react-icons/io5";
 import { FaPlus, FaMinus } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
 import { useDispatch, useSelector } from 'react-redux';
-import {cartTotal, DecrementQuantity, IncrementQuantity} from '../features/Cart/cartSlice'
+import {cartTotal, DecrementQuantity, deleteCartItem, IncrementQuantity, saveCart} from '../features/Cart/cartSlice'
+
+
 const Cart = () => {
+
+
     const navegate = useNavigate()
     const cartData = useSelector((state)=>state.Cart.cart)
     const cartAllTotal = useSelector((state)=>state.Cart)
@@ -16,6 +20,14 @@ const Cart = () => {
     useEffect(()=>{
         dispatch(cartTotal())
     },[cartData, dispatch])
+
+    useEffect(()=>{
+        dispatch(saveCart({
+            cartitems: cartData,
+            totalPrice : cartAllTotal.TotalPrice,
+            totalQuantity: cartAllTotal.TotalQuantity
+        }))
+    }, [cartData, cartAllTotal, dispatch])
 
     return (
         <div className='fixed inset-0 bg-black bg-opacity-85 backdrop-blur-sm flex justify-center items-center z-50 '>
@@ -39,14 +51,14 @@ const Cart = () => {
                                 <p className='text-sm text-green-600 font-bold'>₹ {itam.productPrice}</p>
                                 <div className='flex items-center gap-2'>
                                     <button className='px-2 py-1 bg-purple-500 hover:bg-purple-700 text-white rounded'
-                                    onClick={()=>{dispatch(DecrementQuantity(value))}}
+                                    onClick={()=>{dispatch(DecrementQuantity(itam))}}
                                     ><FaMinus /></button>
                                     <button className='px-2'>{itam.qunatity}</button>
                                     <button className='px-2 py-1 bg-purple-500 hover:bg-purple-700 text-white rounded'
-                                    onClick={()=>{dispatch(IncrementQuantity(value))}}
+                                    onClick={()=>{dispatch(IncrementQuantity(itam))}}
                                     ><FaPlus /></button>
                                     {/* Delete Button */}
-                                    <button  className='px-2 py-1 text-xl text-gray-700 hover:text-red-700  rounded'><MdDelete /></button>
+                                    <button onClick={()=>{dispatch(deleteCartItem(itam))}} className='px-2 py-1 text-xl text-gray-700 hover:text-red-700  rounded'><MdDelete /></button>
                                 </div>
                             </li>
                         ))

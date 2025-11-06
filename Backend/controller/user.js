@@ -2,6 +2,7 @@ const userCollaction = require('../models/user')
 const bcrypt = require('bcrypt')
 const productCollection = require('../models/product')
 const quaryCollection = require('../models/quary')
+const cartCollection = require('../models/Cart')
 
 const regDataController = async (req, res) => {
     try {
@@ -69,13 +70,13 @@ const userProductController = async (req, res) => {
     try {
         const category = req.query.category
 
-        let filter = {productStatus: "In-Stock"}
+        let filter = { productStatus: "In-Stock" }
 
-        if(category && category.toLowerCase() !== "all"){
+        if (category && category.toLowerCase() !== "all") {
             filter.productCategory = category.toLowerCase()
         }
         const record = await productCollection.find(filter)
-        
+
         res.status(200).json({ data: record })
     } catch (error) {
         res.status(500).json({ message: 'Internal server error' })
@@ -91,7 +92,25 @@ const userQuaryController = async (req, res) => {
             Quary: userQuary,
         })
         await record.save()
-        res.status(200).json({message:"Successfully submit your query."})
+        res.status(200).json({ message: "Successfully submit your query." })
+    } catch (error) {
+        res.status(500).json({ message: 'Internal server error' })
+    }
+}
+
+
+const saveCartDataController = async (req, res) => {
+    try {
+        const { cartitems, totalPrice, totalQuantity } = req.body
+
+        const cart = new cartCollection({
+            cartitems: cartitems,
+            totalPrice: totalPrice,
+            totalQuantity: totalQuantity
+        }) 
+        await cart.save()
+
+        res.status(200).json({message : 'Cart save Successfully.'})
     } catch (error) {
         res.status(500).json({ message: 'Internal server error' })
     }
@@ -102,5 +121,6 @@ module.exports = {
     regDataController,
     loginDataController,
     userProductController,
-    userQuaryController
+    userQuaryController,
+    saveCartDataController
 }
