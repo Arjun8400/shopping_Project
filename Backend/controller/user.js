@@ -116,11 +116,20 @@ const saveCartDataController = async (req, res) => {
     }
 }
 
+const searchController = async (req, res) => {
+    try {
+        console.log(req.query.q)
+    } catch (error) {
+        
+    }
+}
+
 
 module.exports = {
     regDataController,
     loginDataController,
     userProductController,
     userQuaryController,
-    saveCartDataController
+    saveCartDataController,
+    searchController
 }

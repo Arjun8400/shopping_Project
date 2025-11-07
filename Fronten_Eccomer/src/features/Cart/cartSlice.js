@@ -8,10 +8,8 @@ export const saveCart = createAsyncThunk("cart/save", async (cartData)=>{
     body:JSON.stringify(cartData)
   })
   const data = await respose.json()
-  console.log(respose)
-  console.log(data.message)
+  
 })
-ss
 const initialState = {
   cart: [],
   TotalPrice:0,

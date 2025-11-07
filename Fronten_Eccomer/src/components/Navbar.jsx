@@ -4,13 +4,19 @@ import { Link } from 'react-router-dom'
 import { MdAddCall } from "react-icons/md";
 import { FaSearch, FaHome, FaCartPlus, FaRegUserCircle, FaBars, FaTimes, } from "react-icons/fa";
 import { useState } from 'react';
+import SearchData from './SearchData';
 
 const Navbar = () => {
 
   const [isOpen, setIsOpen] = useState(false)
+  const [showSearch, setShowSearch] = useState(false)
+
+
   function toggleMenu() {
     setIsOpen(!isOpen)
   }
+
+  
 
   return (
     <nav className='bg-gradient-to-r from-purple-100 via-white to-white shadow-md fixed top-0 left-0 right-0 z-50'>
@@ -23,7 +29,10 @@ const Navbar = () => {
           {/* Search Bar */}
           <div className='flex-1 mx-4 '>
             <div className='relative'>
-              <input type="text" name='' id='' className='w-full bg-gray-200 rounded-full pl-4 pr-10 py-2 shadow-sm text-sm focus:outline-none focus:ring-2 focus:ring-purple-400 ' placeholder='Search for any More Products...' />
+              <input type="text" name='' id='' className='w-full bg-gray-200 rounded-full pl-4 pr-10 py-2 shadow-sm text-sm focus:outline-none focus:ring-2 focus:ring-purple-400 ' placeholder='Search for any More Products...'
+              onFocus={()=>{setShowSearch(true)}}
+              readOnly
+              />
               <FaSearch className='absolute right-3 top-1/2 -translate-y-1/2 text-gray-600 text-lg' />
             </div>
           </div>
@@ -71,6 +80,11 @@ const Navbar = () => {
         </div>
 
       </div>
+      
+      {
+        showSearch && <SearchData onClose={setShowSearch}/>
+      }
+
     </nav>
   )
 }

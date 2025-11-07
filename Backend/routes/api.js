@@ -10,6 +10,7 @@ apiRoutes.post('/loginuser', userController.loginDataController)
 apiRoutes.get("/userproduct", userController.userProductController)
 apiRoutes.post('/userquary', userController.userQuaryController)
 apiRoutes.post('/catr/save', userController.saveCartDataController)
+apiRoutes.get('/search', userController.searchController)
 
 
 // ! Admin Controller ka use
