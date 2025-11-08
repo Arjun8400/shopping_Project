@@ -118,9 +118,16 @@ const saveCartDataController = async (req, res) => {
 
 const searchController = async (req, res) => {
     try {
-        console.log(req.query.q)
+        const keyword = req.query.q
+        const result = await productCollection.find({
+            productName:{$regex:keyword, $options:"i"},
+            productStatus:"In-Stock"
+        })
+
+        res.status(200).json({data:result})
+
     } catch (error) {
-        
+        res.status(500).json({ message: 'Internal server error' })
     }
 }
 
