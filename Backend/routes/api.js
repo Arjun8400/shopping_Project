@@ -2,6 +2,7 @@ const apiRoutes =require("express").Router()
 const userController =require("../controller/user")
 const adminController = require('../controller/admin')
 const uploads = require('../middleware/multer')
+const auth = require("../middleware/auth")
 
 
 // ! User Controller ka use
@@ -9,8 +10,9 @@ apiRoutes.post("/regdata", userController.regDataController)
 apiRoutes.post('/loginuser', userController.loginDataController)
 apiRoutes.get("/userproduct", userController.userProductController)
 apiRoutes.post('/userquary', userController.userQuaryController)
-apiRoutes.post('/catr/save', userController.saveCartDataController)
+apiRoutes.post('/cart/save',auth, userController.saveCartDataController)
 apiRoutes.get('/search', userController.searchController)
+apiRoutes.get("/cart/:id",auth,userController.getCartController)
 
 
 // ! Admin Controller ka use
