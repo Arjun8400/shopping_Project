@@ -20,14 +20,13 @@ const Cart = () => {
   const cartAllTotal = useSelector((state) => state.Cart);
   const dispatch = useDispatch();
 
-  const [checkingAuth, setCheckingAuth] = useState(true)
+  const [checkingAuth, setCheckingAuth] = useState(true);
 
   useEffect(() => {
     dispatch(cartTotal());
   }, [cartData, dispatch]);
 
   useEffect(() => {
-
     let token = localStorage.getItem("token");
     let userId = localStorage.getItem("user");
 
@@ -43,36 +42,85 @@ const Cart = () => {
     }
   }, [cartData, cartAllTotal, dispatch]);
 
-
-  useEffect(()=>{
+  useEffect(() => {
     let token = localStorage.getItem("token");
     let userId = localStorage.getItem("user");
 
-    if(!token){
-        toast.error("Please login to access to cart");
-        navegate("/login");
-        return;
+    if (!token) {
+      toast.error("Please login to access to cart");
+      navegate("/login");
+      return;
     }
 
-    if(userId){
-        dispatch(fetchCart(userId))
-        setCheckingAuth(false)
-    }else{
-        setCheckingAuth(false)
+    if (userId) {
+      dispatch(fetchCart(userId));
+      setCheckingAuth(false);
+    } else {
+      setCheckingAuth(false);
     }
+  }, [dispatch, navegate]);
 
-  }, [dispatch, navegate])
-
-
-  if(checkingAuth){
+  if (checkingAuth) {
     return (
-        <div className="fixed inset-0 justify-center items-center bg-black ">
-            <div className="p-6 bg-white rounded-lg shadow-lg">
-                loading cart...
-            </div>
+      <div className="fixed inset-0 justify-center items-center bg-black ">
+        <div className="p-6 bg-white rounded-lg shadow-lg">loading cart...</div>
+      </div>
+    );
+  }
 
-        </div>
-    )
+  // !Payment setup  1. Order create
+  function handlePayment() {
+    const amount = cartAllTotal.TotalPrice;
+    const currency = "INR";
+    const receipt = "receipt#1";
+
+    fetch("api/create-order", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        amount: amount,
+        currency: currency,
+        receipt: receipt,
+      }),
+    }).then((res) => {
+      return res.json()
+    }).then((order) => {
+      const options = {
+        key: "arjhkhkk", //! razorpay ke id pass
+        amount: order.amount,
+        currency: order.currency,
+        name : "Gift Shop",
+        discription : "tasting Mode ",
+        order_ID: order.id,
+
+        haldler: function (response){
+          const token = localStorage.getItem("token")
+          const userId = localStorage.getItem("user")
+
+          // !Varify payment
+          fetch('/api/varify', {
+            method:"POST",
+            headers:{
+              "Content-Type": "application/json" ,
+              authorization : `Bearer ${token}`
+            },
+            body: JSON.stringify({
+              razorpay_order_id : response.razorpay_order_id,
+              razorpay_payment_id : response.razorpay_payment_id,
+              razorpay_signature : response.razorpay_signature,
+              amount,
+              userId
+            })
+          })
+
+        },
+        prefill:{
+          name: "Arjun Prajapati",
+          email: "youji099@gmail.com",
+        }
+
+      }
+    });
   }
 
   return (
@@ -152,7 +200,10 @@ const Cart = () => {
               ₹ {cartAllTotal.TotalPrice}
             </span>
           </p>
-          <button className="bg-purple-600 mt-4 w-full px-6 py-2 rounded text-white font-bold hover:bg-purple-900 cursor-pointer">
+          <button
+            onClick={handlePayment}
+            className="bg-purple-600 mt-4 w-full px-6 py-2 rounded text-white font-bold hover:bg-purple-900 cursor-pointer"
+          >
             Checkout
           </button>
         </div>

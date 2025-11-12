@@ -4,6 +4,68 @@ const productCollection = require("../models/product");
 const quaryCollection = require("../models/quary");
 const cartCollection = require("../models/Cart");
 const jwt = require("jsonwebtoken");
+const Razorpay = require("razorpay");
+const cripto = require("crypto");
+const orderCollection = require("../models/order");
+
+// ! Razorpay id and secret
+const razorpay = new Razorpay({
+  key_id: process.env.RAZORPAY_KEY_ID,
+  key_secret: process.env.RAZORPAY_KEY_SECRET,
+});
+
+// ! create order api
+const orderController = async (req, res) => {
+  try {
+    const { amount, currency, receipt } = req.body;
+
+    const options = {
+      amount: amount * 100,
+      currency,
+      receipt,
+    };
+    const order = await razorpay.orders.create(options);
+
+    res.status(200).json(order);
+  } catch (error) {
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+// ! varify order
+const varifyController = async (req, res) => {
+  try {
+    const {
+      razorpay_order_id,
+      razorpay_payment_id,
+      razorpay_signature,
+      amount,
+      userId,
+    } = req.body;
+
+    const hmac = cripto.createHmac("sha256", process.env.RAZORPAY_KEY_SECRET);
+    hmac.update(razorpay_order_id + "|" + razorpay_payment_id);
+    const genrate_signature = hmac.digest("hax");
+
+    if (genrate_signature === razorpay_signature) {
+      const record = new orderCollection({
+        userId: userId,
+        orderId: razorpay_order_id,
+        paymentId: razorpay_payment_id,
+        amount: amount,
+        signature: razorpay_signature,
+        status: "Paid",
+      });
+
+      await record.save();
+      res.status(200).json({success:true, message:"Payment successFull"})
+    }else{
+      res.status(501).json({success:false, message: "Payment varify failed."})
+    }
+  } catch (error) {
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
 
 const regDataController = async (req, res) => {
   try {
@@ -128,10 +190,9 @@ const saveCartDataController = async (req, res) => {
 
 const getCartController = async (req, res) => {
   try {
-    const userId = req.params.id
-    const cart = await cartCollection.findOne({userId})
-    res.status(200).json(cart)
-
+    const userId = req.params.id;
+    const cart = await cartCollection.findOne({ userId });
+    res.status(200).json(cart);
   } catch (error) {
     res.status(500).json({ message: "Internal server error" });
   }
@@ -159,4 +220,6 @@ module.exports = {
   saveCartDataController,
   getCartController,
   searchController,
+  orderController,
+  varifyController,
 };

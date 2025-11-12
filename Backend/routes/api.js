@@ -13,6 +13,8 @@ apiRoutes.post('/userquary', userController.userQuaryController)
 apiRoutes.post('/cart/save',auth, userController.saveCartDataController)
 apiRoutes.get('/search', userController.searchController)
 apiRoutes.get("/cart/:id",auth,userController.getCartController)
+apiRoutes.post("/create-order", userController.orderController)
+apiRoutes.post("/varify", userController.varifyController)
 
 
 // ! Admin Controller ka use
