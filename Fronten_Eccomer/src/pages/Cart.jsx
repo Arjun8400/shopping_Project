@@ -82,45 +82,57 @@ const Cart = () => {
         currency: currency,
         receipt: receipt,
       }),
-    }).then((res) => {
-      return res.json()
-    }).then((order) => {
-      const options = {
-        key: "arjhkhkk", //! razorpay ke id pass
-        amount: order.amount,
-        currency: order.currency,
-        name : "Gift Shop",
-        discription : "tasting Mode ",
-        order_ID: order.id,
+    })
+      .then((res) => {
+        return res.json();
+      })
+      .then((order) => {
+        const options = {
+          key: "arjhkhkk", //! razorpay ke id pass
+          amount: order.amount,
+          currency: order.currency,
+          name: "Gift Shop",
+          discription: "tasting Mode ",
+          order_id: order.id,
 
-        haldler: function (response){
-          const token = localStorage.getItem("token")
-          const userId = localStorage.getItem("user")
+          haldler: function (response) {
+            const token = localStorage.getItem("token");
+            const userId = localStorage.getItem("user");
 
-          // !Varify payment
-          fetch('/api/varify', {
-            method:"POST",
-            headers:{
-              "Content-Type": "application/json" ,
-              authorization : `Bearer ${token}`
-            },
-            body: JSON.stringify({
-              razorpay_order_id : response.razorpay_order_id,
-              razorpay_payment_id : response.razorpay_payment_id,
-              razorpay_signature : response.razorpay_signature,
-              amount,
-              userId
-            })
-          })
+            // !Varify payment
+            fetch("/api/varify", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+              },
+              body: JSON.stringify({
+                razorpay_order_id: response.razorpay_order_id,
+                razorpay_payment_id: response.razorpay_payment_id,
+                razorpay_signature: response.razorpay_signature,
+                amount,
+                userId,
+              }),
+            }).then((res)=>{
+              return res.json()
+            }).then((result)=>{
+              if(result.ok){
+                toast.success(result.message)
+              }else{
+                toast.error(result.message)
+              }
+            });
+          },
+          prefill: {
+            name: "Arjun Prajapati",
+            email: "youji099@gmail.com",
+            contact: 8400090983,
+          },
+        };
 
-        },
-        prefill:{
-          name: "Arjun Prajapati",
-          email: "youji099@gmail.com",
-        }
-
-      }
-    });
+        const paymentObject = window.razorpay(options);
+        paymentObject.open();
+      });
   }
 
   return (
