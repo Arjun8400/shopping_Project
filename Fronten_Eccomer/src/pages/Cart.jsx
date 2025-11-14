@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { IoClose } from "react-icons/io5";
 import { FaPlus, FaMinus } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
@@ -12,7 +12,6 @@ import {
   IncrementQuantity,
   saveCart,
 } from "../features/Cart/cartSlice";
-import toast from "react-hot-toast";
 
 const Cart = () => {
   const navegate = useNavigate();
@@ -68,72 +67,7 @@ const Cart = () => {
     );
   }
 
-  // !Payment setup  1. Order create
-  function handlePayment() {
-    const amount = cartAllTotal.TotalPrice;
-    const currency = "INR";
-    const receipt = "receipt#1";
 
-    fetch("api/create-order", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        amount: amount,
-        currency: currency,
-        receipt: receipt,
-      }),
-    })
-      .then((res) => {
-        return res.json();
-      })
-      .then((order) => {
-        const options = {
-          key: "arjhkhkk", //! razorpay ke id pass
-          amount: order.amount,
-          currency: order.currency,
-          name: "Gift Shop",
-          discription: "tasting Mode ",
-          order_id: order.id,
-
-          haldler: function (response) {
-            const token = localStorage.getItem("token");
-            const userId = localStorage.getItem("user");
-
-            // !Varify payment
-            fetch("/api/varify", {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${token}`,
-              },
-              body: JSON.stringify({
-                razorpay_order_id: response.razorpay_order_id,
-                razorpay_payment_id: response.razorpay_payment_id,
-                razorpay_signature: response.razorpay_signature,
-                amount,
-                userId,
-              }),
-            }).then((res)=>{
-              return res.json()
-            }).then((result)=>{
-              if(result.ok){
-                toast.success(result.message)
-              }else{
-                toast.error(result.message)
-              }
-            });
-          },
-          prefill: {
-            name: "Arjun Prajapati",
-            email: "youji099@gmail.com",
-            contact: 8400090983,
-          },
-        };
-
-        const paymentObject = window.razorpay(options);
-        paymentObject.open();
-      });
-  }
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-85 backdrop-blur-sm flex justify-center items-center z-50 ">
@@ -212,12 +146,13 @@ const Cart = () => {
               ₹ {cartAllTotal.TotalPrice}
             </span>
           </p>
-          <button
-            onClick={handlePayment}
-            className="bg-purple-600 mt-4 w-full px-6 py-2 rounded text-white font-bold hover:bg-purple-900 cursor-pointer"
-          >
-            Checkout
-          </button>
+          <Link to="/order">
+            <button
+              className="bg-purple-600 mt-4 w-full px-6 py-2 rounded text-white font-bold hover:bg-purple-900 cursor-pointer"
+            >
+              Checkout
+            </button>
+          </Link>
         </div>
       </div>
     </div>

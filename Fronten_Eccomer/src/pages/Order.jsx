@@ -1,166 +1,277 @@
-import React, { useEffect, useState } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
-import { cartTotal } from '../features/Cart/cartSlice'
+import React, { useEffect, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { cartTotal } from "../features/Cart/cartSlice";
+import {toast} from 'react-hot-toast'
 
 const Order = () => {
-  const dispatch = useDispatch()
-  const { cart, TotalPrice, TotalQuantity } = useSelector((state) => state.Cart)
-
+  const dispatch = useDispatch();
+  const { cart, TotalPrice, TotalQuantity } = useSelector(
+    (state) => state.Cart
+  );
+  const cartAllTotal = useSelector((state) => state.Cart);
+ 
   useEffect(() => {
     // ensure totals are up to date
-    dispatch(cartTotal())
-  }, [cart, dispatch])
+    dispatch(cartTotal());
+  }, [cart, dispatch]);
 
   const [address, setAddress] = useState({
-    fullName: '',
-    line1: '',
-    city: '',
-    state: '',
-    zip: '',
-    phone: '',
-    email: '',
-  })
+    fullName: "",
+    line1: "",
+    city: "",
+    state: "",
+    zip: "",
+    phone: "",
+    email: "",
+  });
 
-  const [payment, setPayment] = useState({ method: 'cod', cardNumber: '', expiry: '', cvv: '' })
-  const [errors, setErrors] = useState({})
-  const [success, setSuccess] = useState('')
+  const [errors, setErrors] = useState({});
 
   const handleAddressChange = (e) => {
-    setAddress({ ...address, [e.target.name]: e.target.value })
-  }
-
-  const handlePaymentChange = (e) => {
-    setPayment({ ...payment, [e.target.name]: e.target.value })
-  }
+    setAddress({ ...address, [e.target.name]: e.target.value });
+  };
 
   const validate = () => {
-    const err = {}
-    if (!address.fullName) err.fullName = 'Full name is required'
-    if (!address.line1) err.line1 = 'Address line is required'
-    if (!address.city) err.city = 'City is required'
-    if (!address.zip) err.zip = 'ZIP/postal code is required'
-    if (!address.phone) err.phone = 'Phone is required'
-    if (!address.email) err.email = 'Email is required'
+    const err = {};
+    if (!address.fullName) err.fullName = "Full name is required";
+    if (!address.line1) err.line1 = "Address line is required";
+    if (!address.city) err.city = "City is required";
+    if (!address.zip) err.zip = "ZIP/postal code is required";
+    if (!address.phone) err.phone = "Phone is required";
+    if (!address.email) err.email = "Email is required";
 
-    if (payment.method === 'card') {
-      if (!payment.cardNumber) err.cardNumber = 'Card number required'
-      if (!payment.expiry) err.expiry = 'Expiry required'
-      if (!payment.cvv) err.cvv = 'CVV required'
-    }
-
-    setErrors(err)
-    return Object.keys(err).length === 0
-  }
+    setErrors(err);
+    return Object.keys(err).length === 0;
+  };
 
   const handleSubmit = (e) => {
-    e.preventDefault()
-    setSuccess('')
-    if (!validate()) return
+    e.preventDefault();
+    if (!validate()) return;
+  };
 
-    // Mock submit - in real app you'd call backend endpoints
-    const orderPayload = {
-      address,
-      payment: { ...payment, method: payment.method },
-      items: cart,
-      total: TotalPrice,
-      quantity: TotalQuantity,
+  
+  // !Payment setup  1. Order create
+    function handlePayment() {
+      const amount = cartAllTotal.TotalPrice;
+      const currency = "INR";
+      const receipt = "receipt#1";
+
+      fetch("api/create-order", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          amount: amount,
+          currency: currency,
+          receipt: receipt,
+        }),
+      })
+        .then((res) => {
+          return res.json();
+        })
+        .then((order) => {
+          const options = {
+            key: "rzp_test_RfS2tmb0XbYzyW", //! razorpay ke id pass
+            amount: order.amount,
+            currency: order.currency,
+            name: "Gift Shop",
+            discription: "tasting Mode ",
+            order_id: order.id,
+
+            haldler: function (response) {
+              const token = localStorage.getItem("token");
+              const userId = localStorage.getItem("user");
+
+              // !Varify payment
+              fetch("/api/varify", {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                  Authorization: `Bearer ${token}`,
+                },
+                body: JSON.stringify({
+                  razorpay_order_id: response.razorpay_order_id,
+                  razorpay_payment_id: response.razorpay_payment_id,
+                  razorpay_signature: response.razorpay_signature,
+                  amount,
+                  userId,
+                }),
+              })
+                .then((res) => {
+                  return res.json();
+                })
+                .then((result) => {
+                  if (result.ok) {
+                    toast.success(result.message);
+                  } else {
+                    toast.error(result.message);
+                  }
+                });
+            },
+            prefill: {
+              name: "Arjun Prajapati",
+              email: "youji099@gmail.com",
+              contact: 8400090983,
+            },
+          };
+
+          const paymentObject = new window.Razorpay(options);
+          paymentObject.open();
+        });
     }
 
-    console.log('Submitting order:', orderPayload)
-    setSuccess('Order placed successfully!')
-  }
-
   return (
-    <div style={{ padding: 20, maxWidth: 1000, margin: '0 auto' }}>
-      <h2>Checkout</h2>
-      <div style={{ display: 'flex', gap: 24, alignItems: 'flex-start' }}>
-        <form onSubmit={handleSubmit} style={{ flex: 1 }}>
-          <h3>Shipping Address</h3>
-          <div style={{ marginBottom: 8 }}>
-            <input name="fullName" placeholder="Full name" value={address.fullName} onChange={handleAddressChange} style={{ width: '100%', padding: 8 }} />
-            {errors.fullName && <div style={{ color: 'red' }}>{errors.fullName}</div>}
+    <div className="max-w-5xl mx-auto p-6 mt-20">
+      <h2 className="text-2xl font-semibold mb-6">Checkout</h2>
+
+      <div className="md:flex md:items-start md:gap-8">
+        <form
+          onSubmit={handleSubmit}
+          className="flex-1 bg-white p-6 rounded shadow"
+        >
+          <h3 className="text-lg font-medium mb-4">Shipping Address</h3>
+
+          <div className="mb-3">
+            <input
+              name="fullName"
+              placeholder="Full name"
+              value={address.fullName}
+              onChange={handleAddressChange}
+              className="w-full p-2 border rounded"
+            />
+            {errors.fullName && (
+              <div className="text-red-600 text-sm mt-1">{errors.fullName}</div>
+            )}
           </div>
 
-          <div style={{ marginBottom: 8 }}>
-            <input name="line1" placeholder="Address line 1" value={address.line1} onChange={handleAddressChange} style={{ width: '100%', padding: 8 }} />
-            {errors.line1 && <div style={{ color: 'red' }}>{errors.line1}</div>}
+          <div className="mb-3">
+            <input
+              name="line1"
+              placeholder="Address line 1"
+              value={address.line1}
+              onChange={handleAddressChange}
+              className="w-full p-2 border rounded"
+            />
+            {errors.line1 && (
+              <div className="text-red-600 text-sm mt-1">{errors.line1}</div>
+            )}
           </div>
 
-          <div style={{ display: 'flex', gap: 8, marginBottom: 8 }}>
-            <input name="city" placeholder="City" value={address.city} onChange={handleAddressChange} style={{ flex: 1, padding: 8 }} />
-            <input name="state" placeholder="State" value={address.state} onChange={handleAddressChange} style={{ width: 140, padding: 8 }} />
-            <input name="zip" placeholder="ZIP" value={address.zip} onChange={handleAddressChange} style={{ width: 120, padding: 8 }} />
+          <div className="flex  gap-3 mb-3">
+            <input
+              name="city"
+              placeholder="City"
+              value={address.city}
+              onChange={handleAddressChange}
+              className="flex-1 p-2 border rounded"
+            />
+            <input
+              name="state"
+              placeholder="State"
+              value={address.state}
+              onChange={handleAddressChange}
+              className="w-36 p-2 border rounded"
+            />
+            <input
+              name="zip"
+              placeholder="ZIP"
+              value={address.zip}
+              onChange={handleAddressChange}
+              className="w-28 p-2 border rounded"
+            />
           </div>
-          {errors.city && <div style={{ color: 'red' }}>{errors.city}</div>}
-          {errors.zip && <div style={{ color: 'red' }}>{errors.zip}</div>}
-
-          <div style={{ marginBottom: 8 }}>
-            <input name="phone" placeholder="Phone" value={address.phone} onChange={handleAddressChange} style={{ width: '100%', padding: 8 }} />
-            {errors.phone && <div style={{ color: 'red' }}>{errors.phone}</div>}
-          </div>
-
-          <div style={{ marginBottom: 16 }}>
-            <input name="email" placeholder="Email" value={address.email} onChange={handleAddressChange} style={{ width: '100%', padding: 8 }} />
-            {errors.email && <div style={{ color: 'red' }}>{errors.email}</div>}
-          </div>
-
-          <h3>Payment</h3>
-          <div style={{ marginBottom: 8 }}>
-            <label style={{ marginRight: 12 }}>
-              <input type="radio" name="method" value="cod" checked={payment.method === 'cod'} onChange={() => setPayment({ ...payment, method: 'cod' })} /> COD
-            </label>
-            <label>
-              <input type="radio" name="method" value="card" checked={payment.method === 'card'} onChange={() => setPayment({ ...payment, method: 'card' })} /> Card
-            </label>
-          </div>
-
-          {payment.method === 'card' && (
-            <div style={{ marginBottom: 12 }}>
-              <div style={{ marginBottom: 8 }}>
-                <input name="cardNumber" placeholder="Card number" value={payment.cardNumber} onChange={handlePaymentChange} style={{ width: '100%', padding: 8 }} />
-                {errors.cardNumber && <div style={{ color: 'red' }}>{errors.cardNumber}</div>}
-              </div>
-              <div style={{ display: 'flex', gap: 8 }}>
-                <input name="expiry" placeholder="MM/YY" value={payment.expiry} onChange={handlePaymentChange} style={{ flex: 1, padding: 8 }} />
-                <input name="cvv" placeholder="CVV" value={payment.cvv} onChange={handlePaymentChange} style={{ width: 120, padding: 8 }} />
-              </div>
-              {errors.expiry && <div style={{ color: 'red' }}>{errors.expiry}</div>}
-              {errors.cvv && <div style={{ color: 'red' }}>{errors.cvv}</div>}
+          {(errors.city || errors.zip) && (
+            <div className="text-red-600 text-sm mb-2">
+              {errors.city || errors.zip}
             </div>
           )}
 
-          <button type="submit" style={{ padding: '10px 16px' }}>Place order</button>
+          <div className="mb-3">
+            <input
+              name="phone"
+              placeholder="Phone"
+              value={address.phone}
+              onChange={handleAddressChange}
+              className="w-full p-2 border rounded"
+            />
+            {errors.phone && (
+              <div className="text-red-600 text-sm mt-1">{errors.phone}</div>
+            )}
+          </div>
 
-          {success && <div style={{ marginTop: 12, color: 'green' }}>{success}</div>}
+          <div className="mb-5">
+            <input
+              name="email"
+              placeholder="Email"
+              value={address.email}
+              onChange={handleAddressChange}
+              className="w-full p-2 border rounded"
+            />
+            {errors.email && (
+              <div className="text-red-600 text-sm mt-1">{errors.email}</div>
+            )}
+          </div>
+
+          <button
+            type="submit"
+            onClick={handlePayment}
+            className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+          >
+            Place order
+          </button>
         </form>
 
-        <aside style={{ width: 360, border: '1px solid #ddd', padding: 16, borderRadius: 6 }}>
-          <h3>Order Summary</h3>
-          <div style={{ marginBottom: 8 }}><strong>Items:</strong> {TotalQuantity}</div>
-          <div style={{ marginBottom: 8 }}><strong>Subtotal:</strong> ${Number(TotalPrice).toFixed(2)}</div>
+        <aside className="w-full md:w-80 mt-6 md:mt-0">
+          <div className="bg-white p-4 rounded shadow">
+            <h3 className="text-lg font-medium mb-3">Order Summary</h3>
+            <div className="mb-2">
+              <span className="font-medium">Items :</span>{" "}
+              <span>{TotalQuantity}</span>
+            </div>
+            <div className="mb-3">
+              <span className="font-medium ">Subtotal :</span>{" "}
+              <span className="text-green-500 font-semibold">
+                {" "}
+                ₹ {Number(TotalPrice).toFixed(2)}
+              </span>
+            </div>
 
-          <div style={{ marginTop: 12 }}>
-            <h4>Items</h4>
-            <div style={{ maxHeight: 240, overflow: 'auto' }}>
-              {cart && cart.length ? (
-                cart.map((it) => (
-                  <div key={it._id} style={{ display: 'flex', justifyContent: 'space-between', padding: '6px 0', borderBottom: '1px solid #f0f0f0' }}>
-                    <div>
-                      <div style={{ fontSize: 14 }}>{it.productName || it.name || 'Product'}</div>
-                      <div style={{ fontSize: 12, color: '#666' }}>Qty: {it.qunatity || it.quantity || 1}</div>
+            <div>
+              <h4 className="font-medium mb-2">Items</h4>
+              <div className="max-h-60 overflow-auto space-y-3">
+                {cart && cart.length ? (
+                  cart.map((it) => (
+                    <div
+                      key={it._id}
+                      className="flex justify-between items-start border-b pb-2"
+                    >
+                      <div>
+                        <div className="text-sm font-medium">
+                          {it.productName || it.name || "Product"}
+                        </div>
+                        <div className="text-xs text-gray-500">
+                          Qty: {it.qunatity || it.quantity || 1}
+                        </div>
+                      </div>
+                      <div className="text-sm">
+                        {" "}
+                        ₹{" "}
+                        {(
+                          parseFloat(it.productPrice || it.price || 0) *
+                          (it.qunatity || it.quantity || 1)
+                        ).toFixed(2)}
+                      </div>
                     </div>
-                    <div>${(parseFloat(it.productPrice || it.price || 0) * (it.qunatity || it.quantity || 1)).toFixed(2)}</div>
-                  </div>
-                ))
-              ) : (
-                <div>No items in cart</div>
-              )}
+                  ))
+                ) : (
+                  <div className="text-sm text-gray-500">No items in cart</div>
+                )}
+              </div>
             </div>
           </div>
         </aside>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Order
+export default Order;

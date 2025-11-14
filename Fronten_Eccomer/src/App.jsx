@@ -14,6 +14,7 @@ import EditProducts from './admin/EditProducts'
 import AdminQuary from './admin/AdminQuary'
 import About from './pages/About'
 import QueryReply from './admin/QueryReply'
+import Order from './pages/Order'
 
 const App = () => {
   return (
@@ -27,6 +28,7 @@ const App = () => {
           <Route path='/reg' element={<Reg/>} />
           <Route path='/cart' element={<Cart/>} />
           <Route path='/about' element={<About/>}/>
+          <Route path='/order' element={<Order/>} />
 
           {/* Admin URL */}
           <Route path='/admin/dashboard' element={<AdminDashkbord/>}/>
