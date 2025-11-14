@@ -4,6 +4,7 @@ import { IoClose } from "react-icons/io5";
 import { FaPlus, FaMinus } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
+import {toast} from 'react-hot-toast'
 import {
   cartTotal,
   DecrementQuantity,
