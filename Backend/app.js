@@ -8,7 +8,10 @@ const connectDB = require("./config/db") //! database ko bulaya
 connectDB()     //! database ko run kiye
 
 
-app.use(cors())
+app.use(cors({
+    origin: ['http://localhost:5173'],
+    credentials: true,
+}))
 app.use(express.static('public'))
 app.use(express.json()) //! JSON data ko allow kiye
 app.use("/api", apiRouter)
