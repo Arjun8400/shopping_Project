@@ -14,7 +14,7 @@ const SearchData = ({ onClose }) => {
   useEffect(() => {
     const delayDebounce = setTimeout(() => {
       if (search.trim()) {
-        fetch(`/api/search?q=${search}`)
+        fetch(`${import.meta.env.VITE_API_URL}/api/search?q=${search}`)
           .then((res) => {
             return res.json();
           })
