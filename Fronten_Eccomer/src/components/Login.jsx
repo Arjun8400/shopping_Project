@@ -27,6 +27,7 @@ const Login = () => {
         navigate("/");
       } else {
         toast.error(result.message);
+        navigate("/reg");
       }
     } catch (error) {
       toast.error(error);

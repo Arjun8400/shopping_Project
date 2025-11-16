@@ -1,6 +1,8 @@
 const productcallection = require('../models/product')
 const queryCollection = require('../models/quary')
 const nodemailer = require("nodemailer")
+const adminCollection =require('../models/admin')
+const jwt = require("jsonwebtoken"); 
 
 const addAdminProductController = async (req, res) => {
     try {
@@ -151,6 +153,37 @@ const allProductController = async (req, res) => {
 
 }
 
+const adminLoginController = async (req, res) => {
+    try {
+        const { email, password } = req.body;
+
+        const admin = await adminCollection.findOne({ email });
+
+        if (!admin) {
+            return res.status(400).json({ message: "Admin not found" });
+        }
+
+        // (Simple password verify — bcrypt use karna hai to bata dena)
+        if (admin.password !== password) {
+            return res.status(400).json({ message: "Invalid credentials" });
+        }
+
+        const token = jwt.sign(
+            { adminId: admin._id },
+            process.env.JWT_SECRET,
+            { expiresIn: "1d" }
+        );
+
+        return res.status(200).json({
+            message: "Login successful",
+            token
+        });
+
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ message: "Internal server error." });
+    }
+};
 
 module.exports = {
     addAdminProductController,
@@ -162,5 +195,6 @@ module.exports = {
     queryDeleteContoller,
     querySingleDataContoller,
     mailReplyController,
-    allProductController
+    allProductController,
+    adminLoginController
 }

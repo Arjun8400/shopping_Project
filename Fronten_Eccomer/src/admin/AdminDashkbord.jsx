@@ -9,7 +9,14 @@ const AdminDashkbord = () => {
 
   async function getAllProduct() {
     try {
-      const response = await fetch('/api/allproduct')
+      const token = localStorage.getItem("adminToken");
+      const response =  await fetch("/api/allproduct", {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`,
+        },
+    })
       const record = await response.json()
       if (response.ok) {
         setProduct(record.data)

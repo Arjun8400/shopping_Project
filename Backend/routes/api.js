@@ -3,6 +3,7 @@ const userController =require("../controller/user")
 const adminController = require('../controller/admin')
 const uploads = require('../middleware/multer')
 const auth = require("../middleware/auth")
+const adminAuth = require('../middleware/admin')
 
 
 // ! User Controller ka use
@@ -27,6 +28,7 @@ apiRoutes.get('/queryalldata', adminController.queryAllDataController)
 apiRoutes.delete('/querydelete/:abc', adminController.queryDeleteContoller)
 apiRoutes.get('/querysingledata/:id', adminController.querySingleDataContoller)
 apiRoutes.post('/mailreply/:abc',adminController.mailReplyController)
-apiRoutes.get('/allproduct',adminController.allProductController)
+apiRoutes.get('/allproduct',adminAuth,adminController.allProductController)
+apiRoutes.post('/adminlogin',adminController.adminLoginController)
 
 module.exports = apiRoutes
