@@ -56,7 +56,7 @@ const Order = () => {
       const currency = "INR";
       const receipt = "receipt#1";
 
-      fetch(`${import.meta.env.VITE_API_URL}/api/create-order`, {
+      fetch(`/api/create-order`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -82,7 +82,7 @@ const Order = () => {
               const userId = localStorage.getItem("user");
 
               // !Varify payment
-              fetch(`${import.meta.env.VITE_API_URL}/api/varify`, {
+              fetch(`/api/varify`, {
                 method: "POST",
                 headers: {
                   "Content-Type": "application/json",

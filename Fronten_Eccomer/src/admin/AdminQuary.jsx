@@ -11,7 +11,7 @@ const AdminQuary = () => {
     
     async function queryAll() {
         try {
-            const response = await fetch(`${import.meta.env.VITE_API_URL}/api/queryalldata`)
+            const response = await fetch(`/api/queryalldata`)
             const record = await response.json()
             if(response.ok){
                 setQuery(record.data)
@@ -25,7 +25,7 @@ const AdminQuary = () => {
 
     async function handleDelete(id){
         try {
-            const response =await fetch(`${import.meta.env.VITE_API_URL}/api/querydelete/${id}`,{
+            const response =await fetch(`/api/querydelete/${id}`,{
                 method:"DELETE"
             })
             const record = await response.json()

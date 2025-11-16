@@ -11,7 +11,7 @@ const Quary = () => {
   async function handleForm(e) {
     try {
       e.preventDefault()
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/userquary`, {
+      const response = await fetch(`/api/userquary`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(quary)

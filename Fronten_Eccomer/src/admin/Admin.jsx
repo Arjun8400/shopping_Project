@@ -23,7 +23,7 @@ const Admin = () => {
   // -------------------------
   const handleLogin = async () => {
     try {
-      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/adminlogin`, {
+      const res = await fetch(`/api/adminlogin`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email: userId, password }),

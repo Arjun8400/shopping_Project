@@ -13,7 +13,7 @@ const Reg = () => {
     async function handleForm(e) {
         e.preventDefault()
         try {
-            const response = await fetch(`${import.meta.env.VITE_API_URL}/api/regdata`, {
+            const response = await fetch(`/api/regdata`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(form)

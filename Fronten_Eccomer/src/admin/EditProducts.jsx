@@ -15,7 +15,7 @@ const EditProducts = () => {
 
     async function editProductData() {
         try {
-            const response = await fetch(`${import.meta.env.VITE_API_URL}/api/editproductdata/${id}`)
+            const response = await fetch(`/api/editproductdata/${id}`)
             const record = await response.json()
             if (response.ok) {
                 setEdit(record.data)
@@ -48,7 +48,7 @@ const EditProducts = () => {
                 Pstatus: edit.productStatus
             }
 
-            const response = await fetch(`${import.meta.env.VITE_API_URL}/api/productupdate/${id}`, {
+            const response = await fetch(`/api/productupdate/${id}`, {
                 method: "POST",
                 headers: {"Content-Type": "application/json"},
                 body: JSON.stringify(fromData)
