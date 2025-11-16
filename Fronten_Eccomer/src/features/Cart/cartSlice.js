@@ -3,7 +3,7 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 export const saveCart = createAsyncThunk("cart/save", async (cartData) => {
   const token = localStorage.getItem("token");
 
-  const respose = await fetch("/api/cart/save", {
+  const respose = await fetch(`${import.meta.env.VITE_API_URL}/api/cart/save`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -16,7 +16,7 @@ export const saveCart = createAsyncThunk("cart/save", async (cartData) => {
 
 export const fetchCart = createAsyncThunk("cart/fetch", async (userId) => {
   let token = localStorage.getItem("token");
-  const response = await fetch(`/api/cart/${userId}`, {
+  const response = await fetch(`${import.meta.env.VITE_API_URL}/api/cart/${userId}`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",

@@ -15,7 +15,7 @@ const QueryReply = () => {
 
     async function queryData() {
         try {
-            const response = await fetch(`/api/querysingledata/${id}`)
+            const response = await fetch(`${import.meta.env.VITE_API_URL}/api/querysingledata/${id}`)
             const record = await response.json()
             if (response.ok) {
                 setQuery({ to: record.data.Email })
