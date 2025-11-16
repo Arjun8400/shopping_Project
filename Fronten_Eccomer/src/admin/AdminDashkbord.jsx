@@ -10,7 +10,7 @@ const AdminDashkbord = () => {
   async function getAllProduct() {
     try {
       const token = localStorage.getItem("adminToken");
-      const response =  await fetch("/api/allproduct", {
+      const response =  await fetch(`${import.meta.env.VITE_API_URL}/api/allproduct`, {
         method: "GET",
         headers: {
             "Content-Type": "application/json",

@@ -12,7 +12,7 @@ const AdminProducts = () => {
 
   async function getAllProduct() {
     try {
-      const response = await fetch('/api/getproduct')
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/getproduct`)
 
       const record = await response.json()
     
@@ -33,7 +33,7 @@ const AdminProducts = () => {
 
   async function handleDelete(id){
     try {
-      const response = await fetch(`/api/productdelete/${id}`,{
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/productdelete/${id}`,{
         method: "DELETE"
       })
       const record =await response.json()

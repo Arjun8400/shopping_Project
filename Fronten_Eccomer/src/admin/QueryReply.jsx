@@ -35,7 +35,7 @@ const QueryReply = () => {
     async function handleForm(e) {
         try {
             e.preventDefault()
-            const response = await fetch(`/api/mailreply/${id}`, {
+            const response = await fetch(`${import.meta.env.VITE_API_URL}/api/mailreply/${id}`, {
                 method: 'POST',
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(query)

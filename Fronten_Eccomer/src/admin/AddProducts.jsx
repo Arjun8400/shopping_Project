@@ -19,7 +19,7 @@ const AddProducts = () => {
         formData.append("Cat", product.Cat)
         formData.append("image", Pimage)
         try {
-         const response =  await fetch('/api/addadminproduct', {
+         const response =  await fetch(`${import.meta.env.VITE_API_URL}/api/addadminproduct`, {
             method : "POST",
             body:formData
          })
