@@ -9,9 +9,14 @@ connectDB()     //! database ko run kiye
 
 
 app.use(cors({
-    origin: ['http://localhost:5173'],
-    credentials: true,
-}))
+  origin: ["https://shopping-project-l2mo.vercel.app"],
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  credentials: true
+}));
+
+app.options("*", cors());
+
+
 app.use(express.static('public'))
 app.use(express.json()) //! JSON data ko allow kiye
 app.use("/api", apiRouter)
