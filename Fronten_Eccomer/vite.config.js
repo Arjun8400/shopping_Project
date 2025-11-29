@@ -8,12 +8,14 @@ export default defineConfig({
    server:{
       proxy:{
         "/api":{
-          // target:"http://localhost:5000"
-          target:"https://shopping-project-f8b0.onrender.com"
+          target:"http://localhost:5000",
+          // target:process.env.VITE_API_URL,
+          changeOrigin: true
         },
         "/uploads":{
-          // target:"http://localhost:5000"
-          target:"https://shopping-project-f8b0.onrender.com"
+          target:"http://localhost:5000",
+          // target:process.env.VITE_API_URL,
+          changeOrigin: true,
         }
       }
     }

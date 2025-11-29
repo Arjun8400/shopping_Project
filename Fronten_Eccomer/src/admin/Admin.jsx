@@ -37,6 +37,7 @@ const Admin = () => {
         navigate("/admin/dashboard");
       } else {
         toast.error(data);
+        // navigate("/admin")
       }
     } catch (error) {
       toast.error(error || "An error occurred");
