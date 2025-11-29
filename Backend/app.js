@@ -9,8 +9,7 @@ connectDB()     //! database ko run kiye
 
 
 app.use(cors({
-  origin: ["https://shopping-project-l2mo.vercel.app"],
-  methods: ["GET", "POST", "PUT", "DELETE"],
+  origin: process.env.CLIENT_URL,
   credentials: true
 }));
 
